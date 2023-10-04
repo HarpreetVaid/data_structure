@@ -1,82 +1,70 @@
-#include<iostream>
-#include<stdlib.h>
+#include <iostream>
 using namespace std;
-struct queue
-{
-    int size;
-    int *arr;
-    int f=0,b=-1;
+
+class queue{
+    private :
+      struct link
+        {
+            int data;
+            link *next;
+        } *first = nullptr,*last;
+    
+    public:
+        void enqueue(int element){
+            if(first == nullptr){
+                first = new link;
+                first->next = nullptr;
+                first->data = element;
+                last = first;
+            }
+            else{
+                link *temp = last;
+                last = new link;
+                temp->next = last;
+                last->next = nullptr;
+                last->data = element;
+            }
+        }
+
+        void dequeue(){
+            if (first == nullptr){
+                return;
+            } 
+            link *temp = first;
+            first = first->next;
+            delete temp;
+        }
+
+        void traverse(){
+                link *temp = first;
+                while (temp != nullptr)
+                {
+                    cout<<temp->data<<"   ";
+                    temp = temp->next;
+                }
+                cout<<endl;   
+            }
+        
+        int isEmpty(){
+            if(first == nullptr){
+                return 1;
+            }
+            return 0;
+            }
+    
 };
-void create(struct queue  *ptr,int size);
-void dequeue(struct queue *ptr);
-void enqueue(struct queue *ptr,int data);
-int peek(struct queue *ptr);
-int isempty(struct queue *ptr);
-int isfull(struct queue *ptr);
-int main()
-        {
-         struct queue sp;
-         int size;
-         cout<<"Enter the size of queue";
-         cin>>size;
-         create(&sp,size);
-         sp.size=size;
-         enqueue(&sp,3);
-          cout<<sp.b;      
-          peek(&sp);
-          cout<<endl;
-          cout<<isempty(&sp)<<endl<<isfull(&sp);
-         return(0);
-        }
-void create(struct queue  *ptr,int size1)
-{
-    ptr->arr=new int[size1];
-}
-void dequeue(struct queue *ptr)
-{
-    if(ptr->b==-1)
-    {
-        cout<<"Queuw underflow";
+
+int main() {
+    queue obj1;
+    for (int i = 0; i < 10; i++){
+        obj1.enqueue(i);
     }
-    else
-    {
-        for(int i=ptr->f;i<(ptr->b);i++)
-        {
-            swap(ptr->arr[i],ptr->arr[i+1]);
-        }
-    }
-}
-void enqueue(struct queue *ptr,int data)
-{
-       if(ptr->b==(ptr->size-1))
-       {
-           cout<<"Queue Overflow";
-       }
-       else
-       {
-           ptr->b++;
-           ptr->arr[ptr->b]=data;
-       }
-}
-int peek(struct queue *ptr)
-{
- return(ptr->arr[0]);   
-}
-int isempty(struct queue *ptr)
-{
-    if(ptr->b==-1)
-    {
-        return 1;
-    }
-    
-    return 2;
-}
-int isfull(struct queue *ptr)
-{
-    if((ptr->b)==(ptr->size))
-    {
-        return 1;
-    }
-    
+    obj1.traverse();
+    cout<<obj1.isEmpty()<<endl;
+    obj1.dequeue();
+    obj1.dequeue();
+    obj1.dequeue();
+    obj1.dequeue();
+    obj1.traverse();
     return 0;
 }
